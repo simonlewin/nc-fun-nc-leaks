@@ -1,7 +1,7 @@
 const https = require("https");
 const { writeFile } = require("fs");
 
-const getPeople = () => {
+const getPeople = (cb) => {
   const options = {
     hostname: "nc-leaks.herokuapp.com",
     path: "/api/people",
@@ -24,7 +24,7 @@ const getPeople = () => {
 
       writeFile("northcoders.json", JSON.stringify({ northcoders }), (err) => {
         if (err) throw err;
-        console.log("The file northcoders.json has been saved");
+        cb(null, "The file northcoders.json has been saved");
       });
     });
   });
@@ -36,4 +36,6 @@ const getPeople = () => {
   req.end();
 };
 
-getPeople();
+// getPeople((error, result) => console.log(result));
+
+module.exports = getPeople;
