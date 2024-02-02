@@ -1,13 +1,13 @@
 const https = require("https");
 const { readFile, writeFile } = require("fs");
 
-const getPets = () => {
+const getPets = (cb) => {
   readFile("./northcoders.json", "utf8", (err, data) => {
     if (err) throw err;
 
-    const people = JSON.parse(data).people;
+    const northcoders = JSON.parse(data).northcoders;
 
-    const usernames = people.map(({ username }) => username);
+    const usernames = northcoders.map(({ username }) => username);
 
     const rawPets = [];
     let counter = 0;
@@ -36,7 +36,7 @@ const getPets = () => {
             const pets = rawPets.filter((pet) => pet !== undefined);
             writeFile("pets.json", JSON.stringify({ pets }), (err) => {
               if (err) throw err;
-              console.log("The file pets.json has been saved");
+              cb(null, "The file pets.json has been saved");
             });
           }
         });
@@ -47,4 +47,6 @@ const getPets = () => {
   });
 };
 
-getPets();
+// getPets((error, result) => console.log(result));
+
+module.exports = getPets;
