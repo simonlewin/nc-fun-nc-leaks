@@ -1,13 +1,13 @@
 const https = require("https");
 const { writeFile } = require("fs");
 
-const options = {
-  hostname: "nc-leaks.herokuapp.com",
-  path: "/api/people",
-  method: "GET",
-};
-
 const getPeople = () => {
+  const options = {
+    hostname: "nc-leaks.herokuapp.com",
+    path: "/api/people",
+    method: "GET",
+  };
+
   const req = https.request(options, (res) => {
     let body = "";
 
@@ -22,16 +22,10 @@ const getPeople = () => {
         ({ job: { workplace } }) => workplace === "northcoders"
       );
 
-      writeFile(
-        "northcoders.json",
-        JSON.stringify({ people: northcoders }),
-        (err) => {
-          if (err) throw err;
-          console.log("The file has been saved");
-        }
-      );
-
-      console.log(northcoders);
+      writeFile("northcoders.json", JSON.stringify({ northcoders }), (err) => {
+        if (err) throw err;
+        console.log("The file northcoders.json has been saved");
+      });
     });
   });
 
